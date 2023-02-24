@@ -1,0 +1,18 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+<h1> event list </h1>
+<ul> 
+    {% for e in events  %} 
+    <li> 
+        <a href="{%  url 'event_details' e.id  %}">{{e.title}}</a>
+    
+    </li>
+    <li> {{e.description}}</li>
+    <li> {{e.state}}</li>
+    <li> <img src="{{e.image.url }}" alt="event_img" width="50% " /> </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
+
