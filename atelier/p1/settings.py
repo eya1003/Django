@@ -133,3 +133,5 @@ AUTH_USER_MODEL   ='users.Person'
 
 MEDIA_URL='media/'
 MEDIA_ROOT='media/'
+
+LOGOUT_REDIRECT_URL="login"
