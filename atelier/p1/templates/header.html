@@ -41,8 +41,8 @@
             {% if user.is_authenticated %}
             <a href="{% url 'logout' %}" class="link-light"> <i class="bi bi-person-dash"></i> Log Out</a>
             {% else %}
-            <a href="" class="link-info"><i class="bi bi-box-arrow-in-right"></i> Log In</a>
-            <a href="" class="link-light"><i class="bi bi-person-add"></i> Sign Up</a>
+            <a href="{% url 'login' %}" class="link-info"><i class="bi bi-box-arrow-in-right"></i> Log In</a>
+            <a href="{% url 'signUp' %}"  class="link-light"><i class="bi bi-person-add"></i> Sign Up</a>
             {% endif %}
             </span>
       </div>

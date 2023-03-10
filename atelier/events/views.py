@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse_lazy
 from django.http import HttpResponse
-from .models import Event
-from  django.views.generic import ListView,DetailView, CreateView, UpdateView
+from .models import Event, Participation
+from  django.views.generic import ListView,DetailView, CreateView, UpdateView , DeleteView
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from datetime import date
 # Create your views here.
 
 def homePage(request):
@@ -64,7 +65,19 @@ def create_event(req):
             return render(req, "events/event_form.html",{'form':form})
         
 
-
+def participate(req,event_id):
+    event= Event.objects.get(id=event_id)
+    user= req.user
+    if Participation.objects.filter(Person=user, event=event).count() ==0:
+        event.nbe_participant+=1
+        event.save()
+        part= Participation.objects.create(Person=user, event=event,date_participation=date.today)
+        part.save()
+        return redirect('list_event_view')
+    else:
+        return redirect('list_event_view')
+    
+     
 #view classe based
 class ListEventView(LoginRequiredMixin,ListView):
     login_url="login" #nom du path
@@ -86,7 +99,9 @@ class CreateEvent(LoginRequiredMixin,CreateView):
     template_name= "events/event_form.html"
     form_class= EventModelForm
     success_url= reverse_lazy('list_event_view')
-
+    def form_valid(self,form) -> HttpResponse:
+        form.instance.organise = Person.objects.get(cin=self.request.user.cin)
+        return super().form_valid(form)
 
 class UpdateEvent(LoginRequiredMixin,UpdateView):
     login_url="login" #nom du path
@@ -94,4 +109,10 @@ class UpdateEvent(LoginRequiredMixin,UpdateView):
     template_name= "events/event_form.html"
     form_class= EventModelForm
     success_url= reverse_lazy('list_event_view')
+    
+class DeleteEventView(LoginRequiredMixin , DeleteView):
+    model= Event
+    success_url=reverse_lazy('list_event_view')
+    
+    
     

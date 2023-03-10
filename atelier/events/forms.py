@@ -21,7 +21,7 @@ class EventForm(forms.Form):
             'class' : 'form-control date-input'
         })
     )
-    organise= forms.ModelChoiceField(label="Organizer",queryset=Person.objects.all())
+    #organise= forms.ModelChoiceField(label="Organizer",queryset=Person.objects.all())
 
 #modelForm car elle va hérité de notre classe precedante
 #form on a pas generer les validators hors que modelForm on doit le faire 
